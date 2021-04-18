@@ -1,1 +1,1 @@
-# [WEOWNTHENITE.ORG](https://weownthenite.org)
+# [WEOWNTHENITE](https://weownthenite.org)
