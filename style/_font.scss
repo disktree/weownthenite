@@ -1,0 +1,9 @@
+$font-family: 'Titillium Web' !default;
+
+@font-face {
+    font-family: $font-family;
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    src: url(font/TitilliumWeb-Bold.woff2) format('woff2');
+}
