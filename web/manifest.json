@@ -1,0 +1,16 @@
+{
+    "name": "Weownthenite",
+    "short_name": "weownthenite",
+		"description": "",
+		"scope": "./",
+    "start_url": "./",
+    "display": "minimal-ui",
+    "theme_color": "#000",
+    "background_color": "#000",
+    "icons": [
+        {
+					"src": "/diamond.svg",
+					"purpose": "maskable any"
+        }
+      ]
+}
