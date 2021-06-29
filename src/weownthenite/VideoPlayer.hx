@@ -72,6 +72,7 @@ class VideoPlayer {
             }
         }).catchError( e -> {
             trace(e);
+            playFallback();
             return false;
         });
     }
