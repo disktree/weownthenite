@@ -1,3 +1,4 @@
+node_modules/
 web/video/
 web/app.css*
 web/app.js*

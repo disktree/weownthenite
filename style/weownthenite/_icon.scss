@@ -13,8 +13,8 @@ $icon-album: "\e900";
     font-display: block;
 }
 
-[class^="icon-"],
-[class*=" icon-"] {
+[class^="ic-"],
+[class*=" ic-"] {
     font-family: '#{$-icon-font-family}' !important;
     font-style: normal;
     font-weight: normal;
@@ -26,8 +26,4 @@ $icon-album: "\e900";
     //speak: never;
 }
 
-.icon-upsidedowncross {
-    &:before {
-        content: $icon-upsidedowncross;
-    }
-}
+.ic-upsidedowncross:before { content: $icon-upsidedowncross; }

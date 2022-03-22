@@ -6,8 +6,8 @@
   "scripts": {
     "clean": "rm -f web/app.css*",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:sass": "sass style/app.scss web/app.css --source-map --watch",
-    "build:sass": "sass style/app.scss web/app.css --style compressed"
+    "dev:sass": "sass style/main.scss web/app.css --source-map --watch",
+    "build:sass": "sass style/main.scss web/app.css --style compressed"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/disktree/weownthenite#readme",
   "devDependencies": {
-    "sass": "^1.32.11"
+    "sass": "^1.49.9"
   }
 }
