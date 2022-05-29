@@ -62,7 +62,6 @@ class VideoPlayer {
 			return;
 		video.src = src;
 		video.load();
-		// video.play();
 	}
 
 	// public function playVideo( url : String ) {
