@@ -31,7 +31,6 @@ const PLAYLIST = [
   "wkr-1.mp4",
 ];
 
-// TODO: responsive video resolution
 // TODO: hls live streaming
 
 export default function VideoPlayer() {
@@ -50,7 +49,10 @@ export default function VideoPlayer() {
   }
 
   function getVideoUrl(index: number): string {
-    return `video/${VIDEO_RES}/${playlist[index]}`
+    let res = VIDEO_RES;
+    if (window.innerWidth < 480) res = 480;
+    else if (window.innerWidth < 960) res = 960;
+    return `video/${res}/${playlist[index]}`
   }
 
   function playNext() {
