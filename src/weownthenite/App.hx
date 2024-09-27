@@ -45,22 +45,23 @@ class App {
 			player = new VideoPlayer(cast document.getElementById("video"));
 			player.playFallback();
 
-			var playlistUrl = 'https://$HSL_HOST/$RTMP_APP/$STREAM.m3u8';
+			final playlistUrl = 'https://$HSL_HOST/$RTMP_APP/$STREAM.m3u8';
 			var isFallback = true;
-            
+
 			/*window.onwheel = e -> {
-					console.debug(e);
-					if( e.deltaY > 0 ) {
-						var v = video.volume - 0.1; 
-						if( v < 0 ) v = 0;
-						//video.volume = v; 
-					} else {
-						var v = video.volume + 0.1; 
-						if( v > 1.0 ) v = 1;
-						//video.volume = v; 
-					}
-			}
-*/
+						console.debug(e);
+						if( e.deltaY > 0 ) {
+							var v = video.volume - 0.1; 
+							if( v < 0 ) v = 0;
+							//video.volume = v; 
+						} else {
+							var v = video.volume + 0.1; 
+							if( v > 1.0 ) v = 1;
+							//video.volume = v; 
+						}
+				}
+			 */
+
 			document.body.onclick = e -> {
 				// temp disable since there is no live stream server atm
 				/*
@@ -78,11 +79,12 @@ class App {
 						}
 					});
 				 */
-                player.video.muted = false;
+				player.video.muted = false;
 				player.playFallback();
 			}
 
 			document.body.ondblclick = e -> {
+				player.video.muted = false;
 				document.documentElement.requestFullscreen();
 				if (document.fullscreenElement == null) {
 					document.documentElement.requestFullscreen();
@@ -99,7 +101,7 @@ class App {
 					// 	trace(e);
 					case 'p':
 					default:
-						playLive(playlistUrl);
+						// playLive(playlistUrl);
 				}
 			}
 
