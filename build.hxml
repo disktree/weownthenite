@@ -1,7 +1,0 @@
--js web/app.js
--main weownthenite.App
--cp src
--lib om.core
--lib hls
--dce full
--debug
