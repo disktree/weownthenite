@@ -1,107 +1,60 @@
-import { useEffect, useRef, useState } from 'react'
-import { shuffleArray } from './utils'
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-const VIDEO_RES = 1920;
+type VideoPlayerProps = {
+  videoResolution: number
+  videoPlaylist: string[]
+}
 
-const PLAYLIST = [
-  "bikeball-15.mp4",
-  "cant.mp4",
-  "haarp-2.mp4",
-  "harga.mp4",
-  "maybetomorrow.mp4",
-  "nottoday-4.mp4",
-  "nottoday.mp4",
-  "panzerpalme.mp4",
-  "panzerschokolade-12.mp4",
-  "panzerschokolade-19.mp4",
-  "panzerschokolade-20.2.mp4",
-  "panzerschokolade-20.3.mp4",
-  "panzerschokolade-20.4.mp4",
-  "panzerschokolade-20.5.mp4",
-  "panzerschokolade-20.6.mp4",
-  "panzerschokolade-20.7.mp4",
-  "panzerschokolade-20.mp4",
-  "panzerschokolade-4.mp4",
-  "panzerschokolade-5.mp4",
-  "panzerschokolade-tropicana-1.mp4",
-  "panzerschokolade-tropicana-2.mp4",
-  "panzerschokolade-tropicana-3.mp4",
-  "sierpinski.mp4",
-  "tekktonic.mp4",
-  "wkr-1.mp4",
-];
+export default function VideoPlayer(props: VideoPlayerProps) {
 
-// TODO: hls live streaming
-
-export default function VideoPlayer() {
-
+  const { videoResolution, videoPlaylist } = props;
   const [videoIndex, setVideoIndex] = useState(0);
-  const [playlist, _setPlaylist] = useState(() => shuffleArray(PLAYLIST));
   const videoRef = useRef<HTMLVideoElement>(null)
   const videoPreloadRef = useRef<HTMLVideoElement>(null)
-  //let videoRes = 1920;
 
-  function getNextVideoIndex(currentIndex?: number) {
-    if (currentIndex === undefined) currentIndex = videoIndex;
-    let id = currentIndex + 1;
-    if (id == PLAYLIST.length) id = 0;
-    return id
-  }
+  const getNextVideoIndex = useCallback((currentIndex: number = videoIndex) =>
+    (currentIndex + 1) % videoPlaylist.length
+    , [videoIndex, videoPlaylist])
 
-  function getVideoUrl(index: number): string {
-    let res = VIDEO_RES;
+  const getVideoUrl = useCallback((index: number): string => {
+    let res = videoResolution;
     if (window.innerWidth < 480) res = 480;
     else if (window.innerWidth < 960) res = 960;
-    return `video/${res}/${playlist[index]}`
-  }
+    return `video/${res}/${videoPlaylist[index]}`
+  }, [videoResolution, videoPlaylist])
 
-  function playNext() {
+  const playNext = useCallback(() => {
     const nextIndex = getNextVideoIndex();
     setVideoIndex(nextIndex)
     if (videoRef.current !== null) {
       videoRef.current.muted = false;
       videoRef.current.src = getVideoUrl(nextIndex);
     }
-    if (videoPreloadRef.current !== null) {
-      const i = getNextVideoIndex(nextIndex);
-      videoPreloadRef.current.src = getVideoUrl(i);
-    }
-  }
-
-  function handleVideoEnd() {
-    //console.log('video ended')
-    playNext();
-  }
-
-  function handleMouseDown() {
-    playNext()
-  }
-
-  function handleKeyDown(e: KeyboardEvent) {
-    switch (e.code) {
-      case "Space":
-      case "Enter":
-        playNext()
-    }
-  }
+    if (videoPreloadRef.current)
+      videoPreloadRef.current.src = getVideoUrl(getNextVideoIndex(nextIndex));
+  }, [getNextVideoIndex, getVideoUrl])
 
   useEffect(() => {
-    if (videoRef.current !== null) {
-      videoRef.current.addEventListener("ended", handleVideoEnd);
+    const handleVideoEnd = () => playNext()
+    const handleMouseDown = () => playNext()
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === "Space" || e.code === "Enter") playNext()
     }
-    document.body.oncontextmenu = e => { e.preventDefault() }
-    document.body.addEventListener("click", handleMouseDown, false)
-    window.addEventListener('keypress', handleKeyDown, false);
-    const vref = videoRef.current;
+    const videoElement = videoRef.current;
+    if (videoElement) {
+      videoElement.addEventListener('ended', handleVideoEnd)
+    }
+    document.body.oncontextmenu = e => e.preventDefault()
+    document.body.addEventListener("click", handleMouseDown)
+    window.addEventListener("keypress", handleKeyDown)
     return () => {
-      if (vref !== null) {
-        vref.removeEventListener("ended", handleVideoEnd);
-      }
+      if (videoElement)
+        videoElement.removeEventListener("ended", handleVideoEnd)
       document.body.oncontextmenu = null;
-      document.body.removeEventListener("click", handleMouseDown, false)
-      window.removeEventListener('keypress', handleKeyDown);
+      document.body.removeEventListener("click", handleMouseDown)
+      window.removeEventListener("keypress", handleKeyDown)
     }
-  })
+  }, [playNext])
 
   return (
     <div>
