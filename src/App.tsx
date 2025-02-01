@@ -1,12 +1,6 @@
 import { shuffleArray } from './utils';
 import VideoPlayer from './VideoPlayer';
 
-// const rtmp = {
-//   host: "rrr.disktree.net",
-//   port: 1935,
-//   app: "weownthenite"
-// }
-
 const PLAYLIST = [
   "bikeball-15.mp4",
   "cant.mp4",
@@ -37,8 +31,9 @@ const PLAYLIST = [
 
 export default function App() {
   return <VideoPlayer
-    videoResolution={1920}
-    videoPlaylist={shuffleArray(PLAYLIST)}
+    liveUrl={`https://velak.klingt.org/hls/stream.m3u8`}
+    resolution={1920}
+    playlist={shuffleArray(PLAYLIST)}
   />
 }
 
